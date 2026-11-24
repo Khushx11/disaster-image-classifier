@@ -77,13 +77,26 @@ def run():
         cached = np.load(cache, allow_pickle=True)
         assert np.array_equal(cached["y"], frame.y.to_numpy())
         assert np.array_equal(cached["split"], frame.split.to_numpy())
-    if (ROOT / "results/metrics.csv").exists():
+    prediction_directory = ROOT / "results/predictions"
+    if prediction_directory.exists():
         from .evaluate import metrics
 
+        assert manifest.exists(), "Saved predictions require the exact split manifest."
         table = pd.read_csv(ROOT / "results/metrics.csv")
-        for file in (ROOT / "results/predictions").glob("*.npz"):
+        expected = {
+            (name, seed)
+            for name in [*protocol["models"], "late_fusion"]
+            for seed in protocol["seeds"]
+        }
+        files = {file.stem: file for file in prediction_directory.glob("*.npz")}
+        assert set(files) == {f"{kind}_{seed}" for kind, seed in expected}, "Missing or extra prediction files"
+        test_indices = np.flatnonzero(frame.split.to_numpy() == "test")
+        test_labels = frame.y.to_numpy()[test_indices]
+        for file in files.values():
             kind, seed = file.stem.rsplit("_", 1)
-            data = np.load(file)
+            data = np.load(file, allow_pickle=False)
+            assert np.array_equal(data["indices"], test_indices), (file, "indices")
+            assert np.array_equal(data["y"], test_labels), (file, "labels")
             for condition in ["clean", "no_text", "no_image", "shuffled_text"]:
                 assert np.allclose(data[condition].sum(1), 1, atol=1e-5)
                 row = table[
@@ -97,6 +110,8 @@ def run():
         visual = np.load(ROOT / "results/predictions/image_42.npz")
         assert np.array_equal(visual["clean"], visual["no_text"])
         assert np.array_equal(visual["clean"], visual["shuffled_text"])
-    print(
-        "Passed missing-input invariance, gradient flow, configuration and cache-identity checks, split checks and saved-metric consistency."
-    )
+    print("Passed architecture, gradient, protocol and cache-identity checks.")
+    if manifest.exists():
+        print("Passed duplicate-group split checks.")
+    if prediction_directory.exists():
+        print("Passed saved prediction coverage, held-out alignment and metric checks.")

@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   evidence:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
@@ -24,8 +24,16 @@ jobs:
           python -m json.tool results/statistics.json > /dev/null
           python -m json.tool results/full_reproduction_validation.json > /dev/null
       - name: Validate recorded experimental evidence
-        run: python scripts/verify_evidence.py | tee evidence-report.json
+        run: |
+          python scripts/verify_evidence.py > evidence-report.json
+          cat evidence-report.json
       - uses: actions/upload-artifact@v4
         with:
           name: evidence-consistency-report
           path: evidence-report.json
+      - name: Install browser test dependency
+        run: python -m pip install playwright==1.56.0
+      - name: Check evidence validation and dashboard
+        run: |
+          python -m unittest discover -s tests -v
+          python tests/browser_smoke.py

@@ -4,6 +4,18 @@ Khush Bhavin Maru · COMP6001 Computer Vision and Multimodal Machine Learning
 
 This project classifies whether an image in a disaster-related post is informative. It compares text-only and image-only baselines, concatenation, late fusion, and a custom availability-aware gated model. The gated model uses feature-wise fusion, explicit missing-input masks and auxiliary unimodal losses.
 
+## Interview dashboard
+
+Run `python portfolio_demo.py` and open http://127.0.0.1:8003. Explore the recorded results for matched, missing and shuffled inputs. The dashboard uses the Python standard library in this mode.
+
+For live inference, install the requirements and point the dashboard at the original local capstone folder:
+
+```sh
+python portfolio_demo.py --evidence "/path/to/COMP6001_Capstone 2"
+```
+
+The dashboard verifies the [original evidence checksums](results/demo_inputs.sha256) before loading the local models. Upload a JPEG, PNG or WebP and optionally supply a caption. It reports the gated ensemble, late fusion and the image-only baseline on the same image. Captions with no vocabulary matches use the missing-text path. The demo serves only on localhost and keeps uploads in memory. Scores describe image informativeness and are uncalibrated.
+
 ## Results
 
 Late fusion averaged the predictions of the trained image and text models. It achieved the best mean clean-test macro-F1 across seeds 42, 43 and 44.
@@ -67,4 +79,4 @@ CrisisMMD by Firoj Alam, Ferda Ofli and Muhammad Imran, ICWSM 2018. QCRI lists t
 
 The visual feature extractor uses ResNet18 by Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun. The fusion design builds on gated multimodal units and modality dropout. [ResNet](https://arxiv.org/abs/1512.03385) · [Gated Multimodal Units](https://arxiv.org/abs/1702.01992) · [Torchvision weights and transforms](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html)
 
-The repository is private pending course-specific publication clearance. [Adelaide University Academic Integrity Policy](https://adelaide.edu.au/about/policies/academic-integrity-policy/)
+The dashboard’s local model replay uses the original evidence on your own machine. [Adelaide University Academic Integrity Policy](https://adelaide.edu.au/about/policies/academic-integrity-policy/)

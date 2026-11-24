@@ -10,6 +10,7 @@ import json
 import math
 from collections import defaultdict
 from pathlib import Path
+from statistics import mean
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,15 +46,18 @@ def verify():
     rows_by_key = defaultdict(list)
     for item in metrics:
         key = (item["model"], item["condition"])
-        assert item["model"] in protocol["models"]
+        assert item["model"] in models
         assert int(item["seed"]) in seeds
         assert item["condition"] in conditions
         for metric in ["accuracy", "macro_f1", "macro_precision", "macro_recall", "auroc"]:
             score = float(item[metric])
             assert math.isfinite(score) and 0 <= score <= 1, (key, metric, score)
         rows_by_key[key].append(item)
-    assert len(rows_by_key) == len(protocol["models"]) * len(conditions)
-    assert all(len(rows) == len(seeds) for rows in rows_by_key.values())
+    assert set(rows_by_key) == {(model, condition) for model in models for condition in conditions}
+    assert all(len(rows) == len(seeds) and {int(row["seed"]) for row in rows} == seeds
+               for rows in rows_by_key.values())
+    assert len(ensembles) == len(rows_by_key)
+    assert {(row["model"], row["condition"]) for row in ensembles} == set(rows_by_key)
 
     clean = {item["model"]: float(item["macro_f1"])
              for item in ensembles if item["condition"] == "clean"}
@@ -88,13 +92,19 @@ def verify():
     assert {(r["model"], r["seed"], r["condition"]) for r in comparison} == {
         (r["model"], r["seed"], r["condition"]) for r in metrics
     }
-    maximum_difference = max(abs(float(row["macro_f1_submitted"]) -
-                                 float(row["macro_f1_reproduction"]))
-                             for row in comparison)
+    clean_replay = defaultdict(list)
+    for row in comparison:
+        if row["condition"] == "clean":
+            clean_replay[row["model"]].append(row)
+    maximum_difference = max(
+        abs(mean(float(row["macro_f1_submitted"]) for row in rows) -
+            mean(float(row["macro_f1_reproduction"]) for row in rows))
+        for rows in clean_replay.values()
+    )
     assert math.isclose(
         maximum_difference,
         reprod["maximum_clean_seed_mean_macro_f1_difference"],
-        abs_tol=0.02,
+        abs_tol=1e-12,
     )
 
     return {
