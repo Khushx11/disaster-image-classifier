@@ -24,6 +24,16 @@ The prespecified test compared the three-seed gated ensemble with the matched co
 - **Splits.** A fixed grouped split prevents repeated tweet IDs, identical decoded images and sufficiently long identical cleaned text from crossing partitions. Validation macro-F1 selects checkpoints. The test set contains 3,615 rows. [Protocol](protocol.json)
 - **Stress tests.** Masking text or image inputs and shuffling text–image pairings measure sensitivity under controlled perturbations. Event coverage, annotation disagreement and exact-match grouping limit generalisation. [Stress tests](results/figures/robustness.png) · [Learning curves](results/figures/learning_curves.png)
 
+## Automated evidence verification
+
+The lightweight CI workflow validates the committed numerical evidence without downloading private tweet content or rerunning neural-network training. It checks class/split counts, measured seed and modality-condition coverage, aggregate scores, the prespecified hypothesis test and consistency with the recorded full-rerun evidence.
+
+```sh
+python scripts/verify_evidence.py
+```
+
+The resulting [GitHub Actions evidence report](.github/workflows/evidence.yml) makes repository integrity easier to inspect during code review. **Passing this check is not an independent reproduction of model accuracy.** The original end-to-end reproduction procedure is described below and its record is retained in [full reproduction validation](results/full_reproduction_validation.json).
+
 ## Review and reproduce
 
 Start from the repository root with Python 3.13.
