@@ -1,0 +1,31 @@
+name: Research evidence integrity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Validate Python syntax and JSON files
+        run: |
+          python -m compileall -q src scripts
+          python -m json.tool protocol.json > /dev/null
+          python -m json.tool results/statistics.json > /dev/null
+          python -m json.tool results/full_reproduction_validation.json > /dev/null
+      - name: Validate recorded experimental evidence
+        run: python scripts/verify_evidence.py | tee evidence-report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence-consistency-report
+          path: evidence-report.json
