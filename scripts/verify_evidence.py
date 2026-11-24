@@ -89,9 +89,20 @@ def verify():
 
     comparison = read_csv("full_reproduction_comparison.csv")
     assert comparison, "Missing replay comparisons"
-    assert {(r["model"], r["seed"], r["condition"]) for r in comparison} == {
-        (r["model"], r["seed"], r["condition"]) for r in metrics
-    }
+    key_fields = ("model", "seed", "condition")
+    recorded = {tuple(row[field] for field in key_fields): row for row in metrics}
+    replay = {tuple(row[field] for field in key_fields): row for row in comparison}
+    assert len(replay) == len(comparison), "Duplicate rerun comparison rows"
+    assert replay.keys() == recorded.keys(), "Rerun comparison coverage differs from metrics.csv"
+    for key, row in replay.items():
+        for metric in ("macro_f1", "accuracy"):
+            submitted = float(row[f"{metric}_submitted"])
+            reproduced = float(row[f"{metric}_reproduction"])
+            assert math.isclose(submitted, float(recorded[key][metric]), rel_tol=0, abs_tol=1e-12), (
+                f"Rerun comparison disagrees with metrics.csv for {key} ({metric})"
+            )
+            assert math.isfinite(reproduced) and 0 <= reproduced <= 1, (key, metric, reproduced)
+
     clean_replay = defaultdict(list)
     for row in comparison:
         if row["condition"] == "clean":

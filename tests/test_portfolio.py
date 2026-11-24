@@ -3,8 +3,10 @@ from pathlib import Path
 from statistics import mean
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 from portfolio_demo import study, verify_inputs
+from scripts import verify_evidence
 
 
 class DashboardTests(unittest.TestCase):
@@ -28,3 +30,18 @@ class DashboardTests(unittest.TestCase):
             artifact.write_bytes(b"different model")
             with self.assertRaisesRegex(ValueError, "differs from the published capstone"):
                 verify_inputs(root, manifest)
+
+
+class EvidenceTests(unittest.TestCase):
+    def test_replay_submitted_accuracy_must_match_recorded_metrics(self):
+        read_csv = verify_evidence.read_csv
+
+        def altered_csv(name):
+            rows = read_csv(name)
+            if name == "full_reproduction_comparison.csv":
+                rows[0]["accuracy_submitted"] = "0.1"
+            return rows
+
+        with patch.object(verify_evidence, "read_csv", side_effect=altered_csv):
+            with self.assertRaisesRegex(AssertionError, "disagrees with metrics.csv"):
+                verify_evidence.verify()
