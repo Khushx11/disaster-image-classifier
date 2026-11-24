@@ -1,0 +1,45 @@
+{
+  "clean": {
+    "difference_macro_f1": 0.005841565559313144,
+    "bootstrap_ci95": [
+      -0.001142193482231915,
+      0.01309592497873817
+    ],
+    "permutation_p_two_sided": 0.11478852114788521,
+    "groups": 3164,
+    "repetitions": 10000
+  },
+  "no_text": {
+    "difference_macro_f1": 0.004328102633339048,
+    "bootstrap_ci95": [
+      -0.0011109815973119634,
+      0.009839973837911641
+    ],
+    "permutation_p_two_sided": 0.131986801319868,
+    "groups": 3164,
+    "repetitions": 10000,
+    "secondary_holm_p": 0.263973602639736
+  },
+  "no_image": {
+    "difference_macro_f1": 0.010480015582869706,
+    "bootstrap_ci95": [
+      0.00021580313234385325,
+      0.02113422909946005
+    ],
+    "permutation_p_two_sided": 0.049795020497950204,
+    "groups": 3164,
+    "repetitions": 10000,
+    "secondary_holm_p": 0.1493850614938506
+  },
+  "shuffled_text": {
+    "difference_macro_f1": -0.005085311037582918,
+    "bootstrap_ci95": [
+      -0.01318436984464621,
+      0.0029120644767455803
+    ],
+    "permutation_p_two_sided": 0.20187981201879812,
+    "groups": 3164,
+    "repetitions": 10000,
+    "secondary_holm_p": 0.263973602639736
+  }
+}

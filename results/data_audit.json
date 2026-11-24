@@ -1,0 +1,34 @@
+{
+  "rows": 18082,
+  "mirror_label_disagreements": 2661,
+  "image_text_label_disagreements": 5339,
+  "groups": 15760,
+  "tweet_ids": 16058,
+  "pixel_duplicates": 306,
+  "splits": {
+    "informative": {
+      "test": 1870,
+      "train": 5585,
+      "val": 1919
+    },
+    "not_informative": {
+      "test": 1745,
+      "train": 5283,
+      "val": 1680
+    }
+  },
+  "original_split_group_overlap": {
+    "train/dev": 51,
+    "train/test": 42,
+    "dev/test": 13
+  },
+  "annotation_sha256": {
+    "california_wildfires.tsv": "ecf6fa7b057a725e67165ecb4a41e5ad599a41b8d23891b58f714ba9e7afea97",
+    "hurricane_harvey.tsv": "80ad4ab4d2143704cff150fd24a070879ef0e9ca4c331aa65c294e50c0c8ff8d",
+    "hurricane_irma.tsv": "faf29d9755ea57124f08af086f620c0e385a1a033ac4fc6f974bfb9ccca06f32",
+    "hurricane_maria.tsv": "bef0521cdac1e4249113de8727a9293db69406ea6c43332d4771be4a0a1ffe04",
+    "iraq_iran_earthquake.tsv": "4ff0f8b71743d0e57d0588d89be9e7fca4d6a6042d1f43dbba77f55adbff1937",
+    "mexico_earthquake.tsv": "6d391cde3811b38896c5ea99892f0a8337710f9ffc2efd3b0e47765551d96b86",
+    "srilanka_floods.tsv": "53544f8da449df9742bebad7bb07f563d6dda8cc4d44e8baad5d74dff57021cd"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "stages": [
+    "download",
+    "prepare",
+    "features",
+    "train",
+    "evaluate",
+    "plots",
+    "verify"
+  ],
+  "raw_downloads_reused": true,
+  "features_and_models_rebuilt": true,
+  "split_identical": true,
+  "targets_identical": true,
+  "text_features_identical": true,
+  "maximum_image_feature_absolute_difference": 2.9802322387695312e-08,
+  "maximum_clean_seed_mean_macro_f1_difference": 0.0040817480124891725,
+  "top_clean_mean_model_submitted": "late_fusion",
+  "top_clean_mean_model_reproduction": "late_fusion",
+  "submitted_measurements_overwritten": false,
+  "note": "Fresh GPU extraction can differ slightly across batching. Seeds do not guarantee identical early-stopped fits after recomputing visual features. The report retains the original measured experiment."
+}
