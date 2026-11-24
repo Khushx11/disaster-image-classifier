@@ -1,0 +1,13 @@
+# Keep Colab's preinstalled torch and torchvision pair.
+numpy>=1.26,<3
+pandas>=2.2,<4
+scikit-learn==1.7.2
+scipy>=1.14,<2
+matplotlib>=3.9,<4
+Pillow>=11,<13
+requests>=2.32,<3
+ftfy==6.3.1
+joblib==1.5.2
+nbformat>=5.10,<6
+nbclient>=0.10,<1
+reportlab>=4.4,<5

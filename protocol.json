@@ -1,0 +1,19 @@
+{
+  "title": "Image informativeness in disaster posts: availability-aware multimodal fusion",
+  "dataset": "QCRI/CrisisMMD",
+  "revision": "10a5626ba112ab9c50369c473a2062bcf205d708",
+  "target": "Original per-event TSV image_info annotation; informative=1, not_informative=0. JSON mirror labels are audited but not used as targets.",
+  "split": "StratifiedGroupKFold(5, shuffle=True, random_state=42): fold 0 test, fold 1 validation, remaining folds training. Groups join tweet ID, identical decoded image pixels, and identical cleaned text of at least 20 characters.",
+  "image_features": "Frozen torchvision ResNet18 IMAGENET1K_V1, official transforms, 512 features",
+  "text_features": "Training-only TF-IDF unigrams and bigrams, max_features=20000, min_df=2, sublinear_tf=True; training-only TruncatedSVD(256), random_state=42",
+  "seeds": [42,43,44],
+  "models": ["text", "image", "concat", "concat_drop", "gated", "no_gate", "no_aux", "no_drop"],
+  "derived_baseline": "Mean of text and image probabilities, with available-modality fallback",
+  "training": {"epochs": 80, "patience": 12, "batch_size": 256, "lr": 0.001, "weight_decay": 0.0001, "hidden":128, "dropout":0.2, "auxiliary_weight":0.2, "modality_drop_probability":0.2},
+  "checkpoint": "Highest validation macro-F1; earliest checkpoint on ties; no test-based selection",
+  "conditions": ["clean", "no_text", "no_image", "shuffled_text"],
+  "primary_comparison": "gated versus concat_drop, clean test macro-F1",
+  "statistics": "Seed-ensemble predictions, paired group bootstrap confidence intervals and group permutation test. Secondary robustness comparisons use Holm correction.",
+  "curves": "Test curves evaluated retrospectively only after checkpoint selection is locked",
+  "scope": "One dataset. No claim of novel research state of the art or universal accuracy superiority. Raw encoder is pretrained; fusion algorithms and training loops are implemented directly in PyTorch."
+}
