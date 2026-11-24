@@ -59,8 +59,9 @@ def verify():
     assert len(ensembles) == len(rows_by_key)
     assert {(row["model"], row["condition"]) for row in ensembles} == set(rows_by_key)
 
-    clean = {item["model"]: float(item["macro_f1"])
-             for item in ensembles if item["condition"] == "clean"}
+    ensemble_f1 = {(row["model"], row["condition"]): float(row["macro_f1"])
+                   for row in ensembles}
+    clean = {model: ensemble_f1[model, "clean"] for model in models}
     assert set(clean) == models
     assert max(clean, key=clean.get) == "late_fusion"
     assert clean["late_fusion"] > clean["gated"]
@@ -71,14 +72,29 @@ def verify():
     assert math.isclose(result["difference_macro_f1"], expected_difference, abs_tol=1e-12)
     low, high = result["bootstrap_ci95"]
     assert low < 0 < high, "The primary confidence interval must not exclude zero"
-    assert 0 < result["permutation_p_two_sided"] < 1
     assert result["permutation_p_two_sided"] > 0.05
-    for condition in conditions:
-        result = stats[condition]
-        assert result["groups"] > 1000
-        assert result["repetitions"] == 10000
-        assert len(result["bootstrap_ci95"]) == 2
-        assert result["bootstrap_ci95"][0] <= result["bootstrap_ci95"][1]
+    assert set(stats) == conditions
+    for condition, comparison in stats.items():
+        difference = ensemble_f1["gated", condition] - ensemble_f1["concat_drop", condition]
+        assert math.isclose(comparison["difference_macro_f1"], difference, abs_tol=1e-12), (
+            f"Ensemble scores disagree with the paired difference for {condition}"
+        )
+        assert 0 < comparison["permutation_p_two_sided"] <= 1
+        assert 1000 < comparison["groups"] <= test_rows
+        assert comparison["repetitions"] == 10000
+        lower, upper = comparison["bootstrap_ci95"]
+        assert -1 <= lower <= upper <= 1
+
+    secondary = sorted(
+        conditions - {"clean"}, key=lambda condition: stats[condition]["permutation_p_two_sided"]
+    )
+    adjusted = 0.0
+    for remaining, condition in zip(range(len(secondary), 0, -1), secondary, strict=True):
+        comparison = stats[condition]
+        adjusted = min(1.0, max(adjusted, remaining * comparison["permutation_p_two_sided"]))
+        assert math.isclose(comparison["secondary_holm_p"], adjusted, abs_tol=1e-12), (
+            f"Holm-adjusted p-value disagrees with the recorded p-values for {condition}"
+        )
 
     assert reprod["status"] == "passed"
     assert reprod["features_and_models_rebuilt"] is True
@@ -129,6 +145,8 @@ def verify():
         "primary_gated_vs_concat_difference": expected_difference,
         "primary_two_sided_p_value": stats["clean"]["permutation_p_two_sided"],
         "interval_excludes_zero": not (low <= 0 <= high),
+        "secondary_holm_p_values": {condition: stats[condition]["secondary_holm_p"]
+                                    for condition in secondary},
         "full_rerun_recorded": reprod["status"],
     }
 
