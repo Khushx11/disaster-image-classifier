@@ -2,6 +2,8 @@
 
 Khush Bhavin Maru · COMP6001 Computer Vision and Multimodal Machine Learning
 
+**Project timeline:** **2026 master’s capstone** at Adelaide University.
+
 This project classifies whether an image in a disaster-related post is informative. It compares text-only and image-only baselines, concatenation, late fusion, and a custom availability-aware gated model. The gated model uses feature-wise fusion, explicit missing-input masks and auxiliary unimodal losses.
 
 
