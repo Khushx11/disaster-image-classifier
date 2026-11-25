@@ -5,20 +5,21 @@ Khush Bhavin Maru · COMP6001 Computer Vision and Multimodal Machine Learning
 This project classifies whether an image in a disaster-related post is informative. It compares text-only and image-only baselines, concatenation, late fusion, and a custom availability-aware gated model. The gated model uses feature-wise fusion, explicit missing-input masks and auxiliary unimodal losses.
 
 
-## Multimodal evaluation
+## How the models combine image and text
 
 ```mermaid
 flowchart LR
-    A["CrisisMMD image and text"]
-    B["Image and text models"]
-    C["Fusion comparison"]
-    D["Grouped held-out evaluation"]
-    A --> B --> C --> D
+    Image["Post image"] --> Vision["Image model"]
+    Text["Post text"] --> Language["Text model"]
+    Vision --> I["Image-only score"]
+    Language --> T["Text-only score"]
+    Vision --> Late["Late fusion: average scores"]
+    Language --> Late
+    Vision --> Features["Concatenation or availability-aware gating"]
+    Language --> Features
 ```
 
-![Clean-test benchmarks and ablations](results/figures/comparison_ablations.png)
-
-The chart below complements the grouped statistical test reported in Results.
+The project compares standalone modalities, score averaging, and feature fusion. The figure under [Results](#results) shows the measured comparison alongside missing-input ablations.
 
 ## Quick demo
 
@@ -77,6 +78,8 @@ Late fusion averaged the predictions of the trained image and text models. It ac
 
 The prespecified test compared the three-seed gated ensemble with the matched concatenation ensemble. The gated ensemble's macro-F1 was 0.0058 higher, with a 95% group-bootstrap interval of −0.0011 to 0.0131 and a two-sided paired randomisation p-value of 0.1148. The interval includes zero. [Seed-level metrics](results/metrics.csv) · [Ensemble metrics](results/ensemble_metrics.csv) · [Grouped test](results/statistics.json)
 
+
+![Clean-test benchmarks and ablations](results/figures/comparison_ablations.png)
 
 ## Design and evaluation
 
