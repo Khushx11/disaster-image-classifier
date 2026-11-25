@@ -4,6 +4,22 @@ Khush Bhavin Maru · COMP6001 Computer Vision and Multimodal Machine Learning
 
 This project classifies whether an image in a disaster-related post is informative. It compares text-only and image-only baselines, concatenation, late fusion, and a custom availability-aware gated model. The gated model uses feature-wise fusion, explicit missing-input masks and auxiliary unimodal losses.
 
+
+## Multimodal evaluation
+
+```mermaid
+flowchart LR
+    A["CrisisMMD image and text"]
+    B["Image and text models"]
+    C["Fusion comparison"]
+    D["Grouped held-out evaluation"]
+    A --> B --> C --> D
+```
+
+![Clean-test benchmarks and ablations](results/figures/comparison_ablations.png)
+
+The chart below complements the grouped statistical test reported in Results.
+
 ## Quick demo
 
 [**Watch the 79-second captioned demo**](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
@@ -61,7 +77,6 @@ Late fusion averaged the predictions of the trained image and text models. It ac
 
 The prespecified test compared the three-seed gated ensemble with the matched concatenation ensemble. The gated ensemble's macro-F1 was 0.0058 higher, with a 95% group-bootstrap interval of −0.0011 to 0.0131 and a two-sided paired randomisation p-value of 0.1148. The interval includes zero. [Seed-level metrics](results/metrics.csv) · [Ensemble metrics](results/ensemble_metrics.csv) · [Grouped test](results/statistics.json)
 
-![Clean-test benchmarks and ablations](results/figures/comparison_ablations.png)
 
 ## Design and evaluation
 
