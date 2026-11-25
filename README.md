@@ -57,6 +57,8 @@ python scripts/evaluate_unseen_events.py data/manifest.csv \
   --output results/unseen_events.json
 ```
 
+The recording above shows the earlier dashboard layout. The launch command below opens the updated evaluation workspace.
+
 ## Interview dashboard
 
 Run `python portfolio_demo.py` and open http://127.0.0.1:8003. Explore the recorded results for matched, missing and shuffled inputs. The dashboard uses the Python standard library in this mode.

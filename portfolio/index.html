@@ -2,11 +2,11 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Disaster Image Classifier</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
 <body><header><div class="nav"><a class="brand" href="/">Disaster Image Classifier</a><nav aria-label="Workspace sections"><a href="#inference">Inference</a><a href="#benchmark">Evaluation</a></nav></div></header>
-<main><div class="hero"><div><p class="eyebrow">CRISISMMD RESEARCH DEMO</p><h1>Disaster image informativeness</h1><p>Compare image-only and multimodal classifiers against the original image annotation task.</p></div><span id="mode" class="badge">Loading</span></div>
+<main><div class="hero"><div><p class="watch-label">CrisisMMD · archived evidence</p><h1>Disaster image informativeness</h1><p>Compare image-only and multimodal classifiers against the original image annotation task.</p><p class="watch-note">Research playback · no live incident feed</p></div><span id="mode" class="badge">Loading</span></div>
 <p id="failure" role="alert" hidden></p>
 <div class="grid">
 <section class="panel" id="inference">
-<h2>Inspect an image</h2><p id="offline">Provide the original local capstone folder at launch to enable checkpoint inference.</p>
+<h2>Inspect a disaster post</h2><p id="offline">Provide the original local capstone folder at launch to enable checkpoint inference.</p>
 <form id="form" hidden>
 <img id="preview" alt="Selected image for inference" hidden>
 <label for="image">Image file</label><input type="file" id="image" accept="image/jpeg,image/png,image/webp">
@@ -25,4 +25,4 @@
 </section>
 <section class="panel full" id="result" hidden><h2>Inference comparison</h2><p id="text-state"></p><div id="predictions" aria-live="polite"></div></section>
 <section class="panel full" id="protocol"><h2>Evaluation protocol</h2><p>Original per-event image labels, grouped duplicate-aware splits and checkpoint selection on validation macro-F1. Masking and shuffling are controlled stress tests on the same historical holdout.</p><p id="label-audit" class="note"></p></section>
-</div></main></body></html>
+</div></main><footer class="project-credit">Portfolio credit · Khush Bhavin Maru</footer></body></html>
