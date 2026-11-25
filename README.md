@@ -25,11 +25,11 @@ The project compares standalone modalities, score averaging, and feature fusion.
 
 ## Quick demo
 
-[**Watch the 79-second captioned demo**](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
+Compare the clean, missing-text and shuffled-text results in the archived CrisisMMD dashboard.
 
-Recorded evaluation dashboard showing clean, missing-text and shuffled-text comparisons.
+[Watch the 19-second captioned walkthrough](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
 
-[![Dashboard preview](docs/demo/preview.png)](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
+[![Disaster Image Classifier dashboard for the archived CrisisMMD evaluation](docs/demo/preview.png)](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
 
 ## My contribution
 
@@ -56,8 +56,6 @@ python scripts/evaluate_unseen_events.py data/manifest.csv \
   --image-manifest data/manifest.csv \
   --output results/unseen_events.json
 ```
-
-The recording above shows the earlier dashboard layout. The launch command below opens the updated evaluation workspace.
 
 ## Interview dashboard
 
