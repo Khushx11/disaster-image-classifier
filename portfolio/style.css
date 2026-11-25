@@ -27,3 +27,5 @@ button.primary {background:#ffc46d;color:#24190e}
 @media(max-width:760px){.hero{min-height:0}.hero .badge{margin-top:8px}}
 :focus-visible {outline:3px solid currentColor;outline-offset:3px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.project-credit { max-width: 80rem; margin: 1.5rem auto 0; padding: .85rem 1rem 1.25rem; text-align: center; font-size: .83rem; }
