@@ -1,4 +1,5 @@
 import hashlib
+import json
 from pathlib import Path
 from statistics import mean
 from tempfile import TemporaryDirectory
@@ -45,3 +46,24 @@ class EvidenceTests(unittest.TestCase):
         with patch.object(verify_evidence, "read_csv", side_effect=altered_csv):
             with self.assertRaisesRegex(AssertionError, "disagrees with metrics.csv"):
                 verify_evidence.verify()
+
+
+    def test_unseen_event_evidence_reconciles_with_class_counts(self):
+        report = json.loads(
+            (Path(__file__).resolve().parents[1] / "results/unseen_events.json").read_text()
+        )
+        folds = report["events"]
+        self.assertEqual(len({fold["event"] for fold in folds}), 7)
+        self.assertEqual(sum(fold["test_rows"] for fold in folds), 18082)
+        for model, aggregate in report["event_mean_macro_f1"].items():
+            scores = []
+            for fold in folds:
+                self.assertEqual(
+                    fold["training_rows"] + fold["cross_event_group_rows_removed"] + fold["test_rows"],
+                    18082,
+                )
+                entry = fold["metrics"][model]
+                matrix = entry["confusion_matrix"]
+                self.assertEqual([sum(row) for row in matrix], [fold["test_label_counts"][str(c)] for c in (0, 1)])
+                scores.append(entry["macro_f1"])
+            self.assertAlmostEqual(mean(scores), aggregate)

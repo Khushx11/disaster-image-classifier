@@ -4,6 +4,40 @@ Khush Bhavin Maru · COMP6001 Computer Vision and Multimodal Machine Learning
 
 This project classifies whether an image in a disaster-related post is informative. It compares text-only and image-only baselines, concatenation, late fusion, and a custom availability-aware gated model. The gated model uses feature-wise fusion, explicit missing-input masks and auxiliary unimodal losses.
 
+## Quick demo
+
+[**Watch the 79-second captioned demo**](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
+
+Recorded evaluation dashboard showing clean, missing-text and shuffled-text comparisons.
+
+[![Dashboard preview](docs/demo/preview.png)](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
+
+## My contribution
+
+For my COMP6001 capstone, I evaluated image-only, text-only and multimodal fusion systems for CrisisMMD image informativeness. The coursework covers the label audit, duplicate-aware split, modality ablations and grouped inference. The public edition adds the evidence dashboard and a separate leave-one-event-out evaluation.
+
+## Unseen-event evaluation
+
+I evaluated fixed linear image and text classifiers, an equal-weight late-fusion model, and a training-majority baseline across seven folds. Each fold held out one entire disaster event and removed training rows sharing a duplicate group with that event. The text vocabulary and image standardisation were fitted within each fold. Image features came from a frozen ImageNet ResNet18 cache whose manifest and row order were verified before use.
+
+- **Late fusion** · 0.7651 mean event macro-F1
+- **Image only** · 0.7512
+- **Text only** · 0.6137
+- **Training-majority baseline** · 0.3392
+
+Late fusion scored from 0.6958 to 0.7893 across events with 597 to 4,556 test rows each. This follow-up measures fixed linear baselines under an event-held-out split. The original gated architecture and the original late-fusion checkpoints were outside this experiment.
+
+[Per-event scores, label support and confusion matrices](results/unseen_events.json) · [Experiment script](scripts/evaluate_unseen_events.py)
+
+Generate a feature archive using the original data and feature stages in [Review and reproduce](#review-and-reproduce). Use the archive's own manifest as the image manifest. The script checks alignment before fitting and records both manifest hashes. The recorded run used the submission's cleaned text and the independently rebuilt image cache.
+
+```sh
+python scripts/evaluate_unseen_events.py data/manifest.csv \
+  --image-features work/features/features.npz \
+  --image-manifest data/manifest.csv \
+  --output results/unseen_events.json
+```
+
 ## Interview dashboard
 
 Run `python portfolio_demo.py` and open http://127.0.0.1:8003. Explore the recorded results for matched, missing and shuffled inputs. The dashboard uses the Python standard library in this mode.

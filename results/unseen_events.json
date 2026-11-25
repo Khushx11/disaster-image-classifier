@@ -1,0 +1,470 @@
+{
+  "protocol": "Leave one event out; purge duplicate groups shared with the held-out event.",
+  "target": "Original CrisisMMD image-informativeness label.",
+  "models": {
+    "text": "Word unigram/bigram TF-IDF and balanced logistic regression (C=1).",
+    "image": "L2-normalised frozen ImageNet ResNet18 features, standardisation and balanced logistic regression (C=1).",
+    "late_fusion": "Equal average of the image and text scores, thresholded at 0.5.",
+    "majority": "Most frequent class in the fold's training rows."
+  },
+  "manifest_sha256": "8aaf20124d3292bd79b82a020bdaaa53dc15d17b4dcbca7ae1d9e31365d0c00b",
+  "image_manifest_sha256": "f70cc4cef34fd2f6db7941f77fae2102efc6666967cd5714a2be4e6c63bd7ab4",
+  "image_features_sha256": "6026d54906e16df0ec137e28bf8174a5d1f11e697393d373e988dae503b1b865",
+  "scikit_learn_version": "1.7.2",
+  "event_mean_macro_f1": {
+    "text": 0.613716047910068,
+    "image": 0.7511698005178573,
+    "late_fusion": 0.7651411727176687,
+    "majority": 0.3392240990276871
+  },
+  "events": [
+    {
+      "event": "california_wildfires",
+      "training_rows": 16455,
+      "cross_event_group_rows_removed": 38,
+      "test_rows": 1589,
+      "test_label_counts": {
+        "0": 604,
+        "1": 985
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.5734108539556353,
+          "confusion_matrix": [
+            [
+              374,
+              230
+            ],
+            [
+              440,
+              545
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.6862673914635739,
+          "confusion_matrix": [
+            [
+              490,
+              114
+            ],
+            [
+              382,
+              603
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.6957920128651836,
+          "confusion_matrix": [
+            [
+              488,
+              116
+            ],
+            [
+              364,
+              621
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.3826728826728827,
+          "confusion_matrix": [
+            [
+              0,
+              604
+            ],
+            [
+              0,
+              985
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "event": "hurricane_harvey",
+      "training_rows": 13573,
+      "cross_event_group_rows_removed": 75,
+      "test_rows": 4434,
+      "test_label_counts": {
+        "0": 1977,
+        "1": 2457
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.6338963757236424,
+          "confusion_matrix": [
+            [
+              1226,
+              751
+            ],
+            [
+              861,
+              1596
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.7620567097762239,
+          "confusion_matrix": [
+            [
+              1593,
+              384
+            ],
+            [
+              669,
+              1788
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.7790984449400827,
+          "confusion_matrix": [
+            [
+              1617,
+              360
+            ],
+            [
+              617,
+              1840
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.3565520243796256,
+          "confusion_matrix": [
+            [
+              0,
+              1977
+            ],
+            [
+              0,
+              2457
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "event": "hurricane_irma",
+      "training_rows": 13474,
+      "cross_event_group_rows_removed": 104,
+      "test_rows": 4504,
+      "test_label_counts": {
+        "0": 2296,
+        "1": 2208
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.5644599972594427,
+          "confusion_matrix": [
+            [
+              757,
+              1539
+            ],
+            [
+              293,
+              1915
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.7715313424769903,
+          "confusion_matrix": [
+            [
+              1809,
+              487
+            ],
+            [
+              541,
+              1667
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.7733575733094258,
+          "confusion_matrix": [
+            [
+              1648,
+              648
+            ],
+            [
+              371,
+              1837
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.3289630512514899,
+          "confusion_matrix": [
+            [
+              0,
+              2296
+            ],
+            [
+              0,
+              2208
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "event": "hurricane_maria",
+      "training_rows": 13450,
+      "cross_event_group_rows_removed": 76,
+      "test_rows": 4556,
+      "test_label_counts": {
+        "0": 2325,
+        "1": 2231
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.6146321075853658,
+          "confusion_matrix": [
+            [
+              1019,
+              1306
+            ],
+            [
+              393,
+              1838
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.7747753321233868,
+          "confusion_matrix": [
+            [
+              1790,
+              535
+            ],
+            [
+              491,
+              1740
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.7872770879963759,
+          "confusion_matrix": [
+            [
+              1715,
+              610
+            ],
+            [
+              358,
+              1873
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.3287166642109916,
+          "confusion_matrix": [
+            [
+              0,
+              2325
+            ],
+            [
+              0,
+              2231
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "event": "iraq_iran_earthquake",
+      "training_rows": 17416,
+      "cross_event_group_rows_removed": 69,
+      "test_rows": 597,
+      "test_label_counts": {
+        "0": 197,
+        "1": 400
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.5754969172379653,
+          "confusion_matrix": [
+            [
+              104,
+              93
+            ],
+            [
+              144,
+              256
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.7227884271937135,
+          "confusion_matrix": [
+            [
+              149,
+              48
+            ],
+            [
+              108,
+              292
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.7472330224459127,
+          "confusion_matrix": [
+            [
+              155,
+              42
+            ],
+            [
+              100,
+              300
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.4012036108324975,
+          "confusion_matrix": [
+            [
+              0,
+              197
+            ],
+            [
+              0,
+              400
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "event": "mexico_earthquake",
+      "training_rows": 16645,
+      "cross_event_group_rows_removed": 57,
+      "test_rows": 1380,
+      "test_label_counts": {
+        "0": 539,
+        "1": 841
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.6369949494949495,
+          "confusion_matrix": [
+            [
+              343,
+              196
+            ],
+            [
+              294,
+              547
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.7773466960335893,
+          "confusion_matrix": [
+            [
+              441,
+              98
+            ],
+            [
+              203,
+              638
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.7838847256044237,
+          "confusion_matrix": [
+            [
+              437,
+              102
+            ],
+            [
+              189,
+              652
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.3786582620441243,
+          "confusion_matrix": [
+            [
+              0,
+              539
+            ],
+            [
+              0,
+              841
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "event": "srilanka_floods",
+      "training_rows": 17052,
+      "cross_event_group_rows_removed": 8,
+      "test_rows": 1022,
+      "test_label_counts": {
+        "0": 770,
+        "1": 252
+      },
+      "metrics": {
+        "text": {
+          "macro_f1": 0.6971211341134741,
+          "confusion_matrix": [
+            [
+              598,
+              172
+            ],
+            [
+              83,
+              169
+            ]
+          ]
+        },
+        "image": {
+          "macro_f1": 0.7634227045575239,
+          "confusion_matrix": [
+            [
+              611,
+              159
+            ],
+            [
+              45,
+              207
+            ]
+          ]
+        },
+        "late_fusion": {
+          "macro_f1": 0.7893453418622769,
+          "confusion_matrix": [
+            [
+              638,
+              132
+            ],
+            [
+              45,
+              207
+            ]
+          ]
+        },
+        "majority": {
+          "macro_f1": 0.1978021978021978,
+          "confusion_matrix": [
+            [
+              0,
+              770
+            ],
+            [
+              0,
+              252
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}
