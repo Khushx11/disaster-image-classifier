@@ -27,7 +27,7 @@ The project compares standalone modalities, score averaging, and feature fusion.
 
 Compare the clean, missing-text and shuffled-text results in the archived CrisisMMD dashboard.
 
-[Watch the 19-second captioned walkthrough](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
+[Watch the 23-second captioned walkthrough](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
 
 [![Disaster Image Classifier dashboard for the archived CrisisMMD evaluation](docs/demo/preview.png)](https://raw.githubusercontent.com/Khushx11/disaster-image-classifier/main/docs/demo/walkthrough.mp4)
 
